@@ -2,7 +2,7 @@
 
 ## Introducción
 
-El objetivo de este examen es desarrollar una aplicación web de cotización de prestamos del hogar utilizando HTML, CSS y JavaScript. Este repositorio contiene los archivos `index.html`, `historial.html` y `datos.json`. Deberás crear los archivos JavaScript necesarios para dinamizar las páginas y cumplir con los requerimientos funcionales.
+El objetivo de este examen es desarrollar una aplicación web de cotización de prestamos utilizando HTML, CSS y JavaScript. Este repositorio contiene los archivos `index.html`, `historial.html` y `datos.json`. Deberás crear los archivos JavaScript necesarios para dinamizar las páginas y cumplir con los requerimientos funcionales.
 
 ## Archivos proporcionados
 
