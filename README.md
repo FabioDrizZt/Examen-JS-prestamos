@@ -1,88 +1,104 @@
-# Examen de JavaScript para Desarrollo Web Frontend
+# 💰 Examen: Calculadora de Préstamos con JavaScript
 
-## Introducción
+## 📋 Objetivo del Examen
 
-El objetivo de este examen es desarrollar una aplicación web de cotización de prestamos utilizando HTML, CSS y JavaScript. Este repositorio contiene los archivos `index.html`, `historial.html` y `datos.json`. Deberás crear los archivos JavaScript necesarios para dinamizar las páginas y cumplir con los requerimientos funcionales.
+En este examen práctico deberás desarrollar una **aplicación web interactiva para la simulación y cálculo de préstamos y cuotas financieras**, conectando una interfaz frontend desarrollada con **HTML, CSS y JavaScript Vanilla** a un **servidor backend local en Node.js/Express**.
 
-## Archivos proporcionados
+La aplicación debe permitir:
 
-- **index.html:** Página principal donde el usuario ingresará los datos para cotizar.
-- **historial.html:** Página que mostrará el historial de cotizaciones realizadas.
-- **datos.json:** Archivo JSON que contiene los datos de tipos de propiedad y ubicaciones con sus respectivos factores.
+1. Consultar los plazos en cuotas y las tasas nominales anuales (TNA) disponibles desde el servidor backend local.
+2. Renderizar dinámicamente las opciones en los selectores de plazos y tasas del formulario.
+3. Calcular la cuota mensual estimada y el importe total a devolver en base al monto solicitado, plazo y tasa de interés.
+4. Persistir las simulaciones realizadas en el navegador mediante `localStorage`.
+5. Visualizar el historial de préstamos calculados y permitir su limpieza interactiva.
 
-## Tareas a realizar
+---
 
-### 1. Crear el archivo `app.js`
+## 📌 Tabla de Entregas / Issues de GitHub
 
-Este archivo manejará la lógica de la página `index.html`.
+Cada entrega se corresponde con un **issue automático** en tu repositorio de GitHub. Para cerrar cada issue automáticamente, incluye el commit sugerido exacto al subir tu solución a la rama principal (`main`).
 
-#### Instrucciones:
+| Entrega | Tarea a Realizar                                                                                                      | Commit Sugerido                                                          |
+| :------ | :-------------------------------------------------------------------------------------------------------------------- | :----------------------------------------------------------------------- |
+| **#1**  | Vincular `css/styles.css` y `js/script.js` en `index.html`.                                                           | `feat(html): vincular css y script js al html`                           |
+| **#2**  | Consumir la API local (`/api/plazos` y `/api/tasas`) usando `fetch` y `async/await`.                                  | `feat(js): consumir api de plazos y tasas con fetch y async await`       |
+| **#3**  | Renderizar dinámicamente las opciones de plazos y tasas en el DOM.                                                    | `feat(js): renderizar opciones de plazos y tasas en el dom`              |
+| **#4**  | Implementar el cálculo de la cuota mensual y monto total al procesar el formulario.                                   | `feat(js): implementar calculo de cuotas y total de prestamo`            |
+| **#5**  | Persistir las simulaciones en `localStorage`, mostrar el historial y permitir su limpieza con `#btnLimpiarHistorial`. | `feat(js): persistir y gestionar historial de prestamos en localstorage` |
 
-1. **Cargar opciones en los selectores:**
-    - Leer el archivo `datos.json`.
-    - Llenar los selectores de tipo de propiedad y ubicación con los datos correspondientes.
+---
 
-2. **Calcular precio estimado en tiempo real:**
-    - Calcular el precio estimado a medida que el usuario selecciona las opciones y modifica el campo de metros cuadrados.
-    - Mostrar el precio estimado en el elemento `span` con el id `valorPoliza`.
+## 🛠️ Especificación Técnica y Requerimientos
 
-3. **Guardar cotización:**
-    - Al hacer clic en el botón "Cotizar", calcular la póliza mensual y guardar la cotización en el `localStorage`.
-    - Redirigir a la página `historial.html`.
+### 1. Servidor Backend Local
 
-### 2. Crear el archivo `historial.js`
+El servidor Express provisto corre en el puerto `3000` con CORS habilitado:
 
-Este archivo manejará la lógica de la página `historial.html`.
+- **`GET http://localhost:3000/api/financiera`**: Devuelve el catálogo completo con plazos y tasas.
+- **`GET http://localhost:3000/api/plazos`**: Devuelve el arreglo de plazos en meses.
+- **`GET http://localhost:3000/api/tasas`**: Devuelve las líneas de crédito con su TNA.
 
-#### Instrucciones:
+Para iniciar el servidor backend:
 
-1. **Mostrar historial de cotizaciones:**
-    - Leer las cotizaciones guardadas en el `localStorage`.
-    - Mostrar las cotizaciones en una tabla.
+```bash
+npm start
+```
 
-2. **Limpiar historial:**
-    - Añadir un botón con un ícono de basura.
-    - Al hacer clic en el botón, limpiar el `localStorage` y actualizar la tabla.
+### 2. Fórmula de Cálculo Financiero
 
-## Requerimientos funcionales
+1. **Interés Total**: $\text{Monto} \times \text{TNA} \times (\text{Meses} / 12)$.
+2. **Total a Pagar**: $\text{Monto} + \text{Interés Total}$.
+3. **Cuota Mensual Estimada**: $\text{Total a Pagar} / \text{Meses}$.
 
-### index.html
-- **Selectores:** Los selectores de tipo de propiedad y ubicación deben llenarse dinámicamente con los datos del archivo `datos.json`.
-- **Precio estimado:** El precio estimado debe actualizarse en tiempo real a medida que el usuario interactúa con el formulario.
-- **Guardar cotización:** Al hacer clic en "Cotizar", la cotización debe guardarse en el `localStorage` y el usuario debe ser redirigido a `historial.html`.
+### 3. Elementos Clave del DOM
 
-### historial.html
-- **Mostrar historial de cotizaciones:** Las cotizaciones guardadas en el `localStorage` deben mostrarse en una tabla.
-- **Limpiar historial:** Debe haber un botón con un ícono de basura que permita limpiar el historial de cotizaciones.
+- **`#monto`**: Input numérico del monto solicitado.
+- **`#plazo`**: `<select>` donde se cargan las opciones de cuotas.
+- **`#tasa`**: `<select>` donde se cargan las líneas de crédito y TNA.
+- **`#formPrestamo`** y **`#btnCalcular`**: Formulario y botón de envío.
+- **`#cuotaMensual`** y **`#totalPagar`**: Spans donde se muestran los valores calculados.
+- **`#historialLista`**: Lista `<ul>` donde se registran las simulaciones guardadas.
+- **`#btnLimpiarHistorial`**: Botón para vaciar el historial en `localStorage`.
 
-## Guía de implementación
+### 4. Almacenamiento Local (`localStorage`)
 
-### Paso 1: Cargar datos en los selectores
+- **Clave obligatoria**: `'prestamos_historial'`
+- **Estructura**: Arreglo de objetos con `{ monto, meses, lineaCredito, cuotaMensual, total, fecha }`.
+- Utilizar `JSON.stringify()` para guardar y `JSON.parse()` para leer.
 
-1. Crear una función para leer el archivo `datos.json`.
-2. Llenar los selectores de tipo de propiedad y ubicación con los datos del JSON.
+---
 
-### Paso 2: Calcular precio estimado en tiempo real
+## 🧪 Comandos de Prueba y Autoevaluación
 
-1. Crear una función para obtener los factores de tipo de propiedad y ubicación.
-2. Crear una función para calcular el precio estimado basado en los factores y los metros cuadrados ingresados.
-3. Mostrar el precio estimado en tiempo real en la página `index.html`.
+Antes de entregar, podés autoevaluar tu trabajo localmente:
 
-### Paso 3: Guardar cotización y redirigir
+```bash
+# Ejecutar todas las pruebas automáticas
+npm test
 
-1. Crear una función para guardar la cotización en el `localStorage`.
-2. Redirigir al usuario a `historial.html` después de guardar la cotización.
+# Ejecutar una prueba individual
+npm run test:link
+npm run test:fetch
+npm run test:render
+npm run test:events
+npm run test:storage
 
-### Paso 4: Mostrar historial de cotizaciones
+# Validar estilo y calidad de código
+npm run lint
+npm run format:check
+```
 
-1. Leer las cotizaciones guardadas en el `localStorage`.
-2. Mostrar las cotizaciones en una tabla en `historial.html`.
+---
 
-### Paso 5: Limpiar historial
+## 🚀 Instrucciones para la Ejecución Local
 
-1. Añadir un botón con un ícono de basura para limpiar el `localStorage`.
-2. Actualizar la tabla después de limpiar el historial.
-
-## Evaluación
-
-Se evaluará la correcta implementación de las funcionalidades descritas, la limpieza y organización del código, y el manejo adecuado de eventos y almacenamiento local en JavaScript.
+1. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+2. Iniciar el servidor local:
+   ```bash
+   npm start
+   ```
+3. Abrir `index.html` en el navegador (usando la extensión **Live Server** de VS Code).
+4. Abrir la consola de herramientas de desarrollador (**F12**) para verificar peticiones de red y depurar posibles errores.

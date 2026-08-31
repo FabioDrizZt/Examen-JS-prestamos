@@ -1,0 +1,14 @@
+{
+  "plazos": [
+    { "meses": 12, "nombre": "12 Cuotas Mensuales" },
+    { "meses": 24, "nombre": "24 Cuotas Mensuales" },
+    { "meses": 36, "nombre": "36 Cuotas Mensuales" },
+    { "meses": 48, "nombre": "48 Cuotas Mensuales" }
+  ],
+  "tasas": [
+    { "id": "personal", "tipo": "Crédito Personal", "tna": 0.45, "tnaPorcentaje": "45%" },
+    { "id": "automotor", "tipo": "Crédito Automotor", "tna": 0.35, "tnaPorcentaje": "35%" },
+    { "id": "hipotecario", "tipo": "Crédito Hipotecario", "tna": 0.25, "tnaPorcentaje": "25%" },
+    { "id": "emprendedor", "tipo": "Microcrédito Emprendedor", "tna": 0.3, "tnaPorcentaje": "30%" }
+  ]
+}
